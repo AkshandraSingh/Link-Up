@@ -30,4 +30,5 @@ const postSchema = mongoose.Schema({
 
 postSchema.set('timestamps', true)
 
-module.exports = postSchema
+module.exports = mongoose.model('user', userSchema)
+

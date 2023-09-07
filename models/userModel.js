@@ -41,4 +41,4 @@ const userSchema = mongoose.Schema({
 
 userSchema.set('timestamps', true)
 
-module.exports = userSchema
+module.exports = mongoose.model('user',userSchema)
