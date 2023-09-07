@@ -1,0 +1,25 @@
+level error: Sep-07-2023 17:13:53 	Error: data and salt arguments required
+level error: Sep-07-2023 17:14:55 	Error: data and salt arguments required
+level error: Sep-07-2023 17:16:14 	Error: data and salt arguments required
+level info: Sep-07-2023 17:22:45 	Your account is created!
+level error: Sep-07-2023 17:22:57 	User is already exist with this email or phone number
+level info: Sep-07-2023 17:23:28 	Authentication successful.
+level info: Sep-07-2023 17:43:53 	Email has been sended
+level error: Sep-07-2023 17:44:38 	New password or confirm password is incorrect
+level info: Sep-07-2023 17:44:45 	Password Updated
+level error: Sep-07-2023 17:44:48 	Don't use old passwords, try another password
+level info: Sep-07-2023 17:53:31 	Your profile pic
+level error: Sep-07-2023 18:00:53 	Error: data and hash arguments required
+level error: Sep-07-2023 18:01:58 	Error: data and hash arguments required
+level error: Sep-07-2023 18:02:05 	Error: data and hash arguments required
+level error: Sep-07-2023 18:02:43 	Error: data and hash arguments required
+level error: Sep-07-2023 18:03:04 	Error: data and hash arguments required
+level error: Sep-07-2023 18:03:36 	Error: data and hash arguments required
+level error: Sep-07-2023 18:04:00 	Error: data and hash arguments required
+level error: Sep-07-2023 18:04:32 	Error: data and hash arguments required
+level error: Sep-07-2023 18:06:45 	Old Password is incorrect
+level info: Sep-07-2023 18:08:15 	Your account is created!
+level error: Sep-07-2023 18:08:22 	Old Password is incorrect
+level error: Sep-07-2023 18:09:08 	Error: userData.usedPasswords is not iterable
+level info: Sep-07-2023 18:09:52 	Your Password is updated!
+level error: Sep-07-2023 18:09:57 	Old Password is incorrect
