@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken');
 
 const userModel = require('../models/userModel')
+const emailService = require('../services/emailService')
 
 module.exports = {
     userSignUp: async (req, res) => {
@@ -44,5 +46,70 @@ module.exports = {
                 error: error.message
             })
         }
-    }
+    },
+
+    userLogin: async (req, res) => {
+        try {
+            const { userAccount, userPassword } = req.body;
+            const isEmail = await userModel.findOne({ userEmail: userAccount });
+            const isUserName = await userModel.findOne({ userName: userAccount });
+            if (!isEmail && !isUserName) {
+                return res.status(401).json({
+                    success: false,
+                    message: "Invalid credentials. User not found.",
+                });
+            }
+            const userData = isEmail || isUserName;
+            const token = jwt.sign({ userData }, process.env.SECRET_KEY, { expiresIn: '1h' });
+            const isCorrectPassword = await bcrypt.compare(userPassword, userData.userPassword)
+            if (!isCorrectPassword) {
+                return res.status(401).json({
+                    success: false,
+                    message: "Invalid credentials. Password incorrect.",
+                });
+            }
+            res.status(200).json({
+                success: true,
+                message: "Authentication successful.",
+                token: token,
+            });
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                message: "Error!",
+                error: error.message,
+            });
+        }
+    },
+
+    forgetPassword: async (req, res) => {
+        try {
+            const { userEmail } = req.body
+            const isEmailExist = await userModel.findOne({
+                userEmail: userEmail
+            })
+            if (!isEmailExist) {
+                return res.status(401).json({
+                    success: false,
+                    message: "Invalid credentials. User not found.",
+                });
+            }
+            const userId = isEmailExist._id
+            const token = jwt.sign({ isEmailExist }, process.env.SECRET_KEY, { expiresIn: '1h' });
+            const link = `https://linkUp/resetPassword/${userId}/${token}`
+            emailService.mailOptions(userEmail, link)
+            res.status(200).send({
+                success: true,
+                message: "Email has been sended",
+                userId: userId,
+                token: token,
+            })
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                message: "Error!",
+                error: error.message,
+            });
+        }
+    },
 }
