@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const commentSchema = mongoose.Schema({
+const commentSchema = new mongoose.Schema({
     comment: {
         type: String,
         required: true,
@@ -22,4 +22,4 @@ const commentSchema = mongoose.Schema({
 
 commentSchema.set('timestamps', true)
 
-module.exports = mongoose.model('user',userSchema)
+module.exports = mongoose.model('user', userSchema)
