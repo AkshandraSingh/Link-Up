@@ -23,3 +23,10 @@ level error: Sep-07-2023 18:08:22 	Old Password is incorrect
 level error: Sep-07-2023 18:09:08 	Error: userData.usedPasswords is not iterable
 level info: Sep-07-2023 18:09:52 	Your Password is updated!
 level error: Sep-07-2023 18:09:57 	Old Password is incorrect
+level error: Sep-07-2023 18:48:27 	This user name is already taken, try another
+level error: Sep-07-2023 18:48:44 	User not found!
+level error: Sep-07-2023 18:48:54 	User not found!
+level info: Sep-07-2023 18:49:29 	User profile updated
+level info: Sep-07-2023 18:50:15 	User profile updated
+level info: Sep-07-2023 18:50:36 	User profile updated
+level info: Sep-07-2023 18:53:15 	User profile updated

@@ -254,4 +254,46 @@ module.exports = {
             });
         }
     },
+
+    editProfile: async (req, res) => {
+        try {
+            const userId = req.params.userId;
+            const { name, userBio, userName } = req.body;
+            const userProfilePic = req.file ? `/upload/userProfile/${req.file.filename}` : undefined;
+            if (userName) {
+                const isUserNameTaken = await userModel.findOne({
+                    userName: userName
+                });
+                if (isUserNameTaken) {
+                    userLogger.log('error', 'This user name is already taken, try another');
+                    return res.status(401).json({
+                        success: false,
+                        message: "This user name is already taken, try another"
+                    });
+                }
+            }
+            const updateUserData = await userModel.findByIdAndUpdate(
+                userId,
+                {
+                    name: name || undefined,
+                    userProfilePic: userProfilePic || undefined,
+                    userBio: userBio || undefined,
+                    userName: userName || undefined,
+                },
+                { new: true }
+            );
+            userLogger.log('info', "User profile updated");
+            res.status(200).json({
+                success: true,
+                message: "User profile updated",
+                updatedData: updateUserData
+            });
+        } catch (error) {
+            userLogger.log('error', `Error: ${error.message}`);
+            res.status(500).json({
+                success: false,
+                error: `Error occurred: ${error.message}`,
+            });
+        }
+    },
 }

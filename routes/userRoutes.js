@@ -1,6 +1,7 @@
 const express = require('express')
 
 const user = require('../controllers/userController')
+const { upload } = require('../middleware/userImageStorage')
 
 const router = express.Router()
 
@@ -9,6 +10,7 @@ router.post('/userLogin', user.userLogin)
 router.post('/forgetPassword', user.forgetPassword)
 router.post('/resetPassword/:userId/:token', user.resetPassword)
 router.post('/setNewPassword/:userId', user.setNewPassword)
+router.patch('/editProfile/:userId', upload.single('userProfilePic'), user.editProfile)
 router.get('/showProfile/:userId', user.showProfile)
 
 module.exports = router
