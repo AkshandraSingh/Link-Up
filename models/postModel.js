@@ -11,11 +11,11 @@ const postSchema = new mongoose.Schema({
     },
     postImage: {
         type: String,
-        default: "not-given",
+        default: "",
     },
     postVideo: {
         type: String,
-        default: "not-given",
+        default: "",
     },
     postLikes: {
         type: Number,

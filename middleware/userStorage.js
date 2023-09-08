@@ -1,48 +1,24 @@
 const multer = require('multer');
 const path = require('path');
 
-const profilePicStorage = multer.diskStorage({
+const storageConfig = (destination, filenamePrefix) => multer.diskStorage({
     destination: (req, file, callback) => {
-        callback(null, path.join(__dirname, '..', 'uploads', 'userProfilePics'));
+        callback(null, path.join(__dirname, '..', 'uploads', destination));
     },
     filename: (req, file, callback) => {
         const ext = path.extname(file.originalname);
-        callback(null, `image_${Date.now()}${ext}`);
-    }
-});
-const videoStorage = multer.diskStorage({
-    destination: (req, file, callback) => {
-        callback(null, path.join(__dirname, '..', 'uploads', 'userPostVideos'));
-    },
-    filename: (req, file, callback) => {
-        const ext = path.extname(file.originalname);
-        callback(null, `video_${Date.now()}${ext}`);
-    }
-});
-const postImageStorage = multer.diskStorage({
-    destination: (req, file, callback) => {
-        callback(null, path.join(__dirname, '..', 'uploads', 'userPostImage'));
-    },
-    filename: (req, file, callback) => {
-        const ext = path.extname(file.originalname);
-        callback(null, `image_${Date.now()}${ext}`);
+        callback(null, `${filenamePrefix}_${Date.now()}${ext}`);
     }
 });
 
-const profilePicFilter = (req, file, callback) => {
+const imageFilter = (req, file, callback) => {
     if (file.mimetype.startsWith('image')) {
         callback(null, true);
     } else {
         callback(new Error('Only image files are supported'));
     }
 };
-const postImageFilter = (req, file, callback) => {
-    if (file.mimetype.startsWith('image')) {
-        callback(null, true);
-    } else {
-        callback(new Error('Only image files are supported'));
-    }
-};
+
 const videoFilter = (req, file, callback) => {
     if (file.mimetype.startsWith('video')) {
         callback(null, true);
@@ -51,9 +27,9 @@ const videoFilter = (req, file, callback) => {
     }
 };
 
-const profilePicUpload = multer({ storage: profilePicStorage, fileFilter: profilePicFilter });
-const postImageUpload = multer({ storage: postImageStorage, fileFilter: postImageFilter });
-const videoUpload = multer({ storage: videoStorage, fileFilter: videoFilter });
+const profilePicUpload = multer({ storage: storageConfig('userProfilePics', 'image'), fileFilter: imageFilter });
+const postImageUpload = multer({ storage: storageConfig('userPostImage', 'image'), fileFilter: imageFilter });
+const videoUpload = multer({ storage: storageConfig('userPostVideos', 'video'), fileFilter: videoFilter });
 
 module.exports = {
     profilePicUpload,

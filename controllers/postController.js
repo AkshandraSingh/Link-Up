@@ -4,18 +4,21 @@ module.exports = {
     createPost: async (req, res) => {
         try {
             const userId = req.params.userId;
-            const postImage = req.file.postImage ? `/upload/userPostImage/${req.file.filename}` : undefined;
-            const postVideo = req.file.postVideo ? `/upload/userVideoPost/${req.file.filename}` : undefined;
-            const postDescription = req.body.postDescription ? `${req.body.postDescription}` : undefined;
-            console.log(req.file.postImage)
-            console.log(postVideo)
-            const newPost = new postModel({
-                userId: userId,
-                postName: req.body.postName,
-                postImage: postImage,
-                postVideo: postVideo,
-                postDescription: postDescription
-            });
+            let postImage;
+            let postVideo;
+            if (req.file && req.file.fieldname === 'postImage') {
+                postImage = `/upload/userPostImage/${req.file.filename}`;
+            }
+            if (req.file && req.file.fieldname === 'postVideo') {
+                postVideo = `/upload/userVideoPost/${req.file.filename}`;
+            }
+            const newPostData = {
+                ...req.body,
+                userId,
+                postImage,
+                postVideo
+            };
+            const newPost = new postModel(newPostData);
             await newPost.save();
             res.status(201).json({
                 success: true,
