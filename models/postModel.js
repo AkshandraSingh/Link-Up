@@ -5,6 +5,10 @@ const postSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    postDescription: {
+        type: String,
+        default: "",
+    },
     postImage: {
         type: String,
         default: "not-given",
@@ -30,5 +34,5 @@ const postSchema = new mongoose.Schema({
 
 postSchema.set('timestamps', true)
 
-module.exports = mongoose.model('user', userSchema)
+module.exports = mongoose.model('post', postSchema)
 

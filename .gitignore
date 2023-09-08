@@ -2,3 +2,4 @@
 \linkenv
 \.env
 \package-lock.json
+\.vscode
