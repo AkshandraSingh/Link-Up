@@ -238,7 +238,7 @@ module.exports = {
     showProfile: async (req, res) => {
         try {
             const { userId } = req.params
-            const userData = await userModel.findById(userId).select('userName name userBio userProfilePic')
+            const userData = await userModel.findById(userId).select('userName name userBio userProfilePic userFollowers userFollowing')
             userLogger.log('info', 'Your profile found')
             res.status(200).send({
                 success: true,
@@ -288,6 +288,67 @@ module.exports = {
                 message: "User profile updated",
                 updatedData: updateUserData
             });
+        } catch (error) {
+            userLogger.log('error', `Error: ${error.message}`);
+            res.status(500).json({
+                success: false,
+                error: `Error occurred: ${error.message}`,
+            });
+        }
+    },
+
+    searchAccount: async (req, res) => {
+        try {
+            const { userName } = req.params
+            const searchData = await userModel.find({ userName: { $regex: `^${userName}`, $options: "i" } }).select('userName name userProfilePic userBio userFollowers userFollowing')
+            if (searchData.length === 0) {
+                return res.status(404).send({
+                    success: false,
+                    message: "Account not found!"
+                })
+            }
+            res.status(200).send({
+                success: true,
+                message: "Account Found",
+                accountData: searchData
+            })
+        } catch (error) {
+            userLogger.log('error', `Error: ${error.message}`);
+            res.status(500).json({
+                success: false,
+                error: `Error occurred: ${error.message}`,
+            });
+        }
+    },
+
+    followAccount: async (req, res) => {
+        try {
+            const { accountId, userId } = req.params
+            let isUserPresent = true
+            const accountData = await userModel.findById(accountId)
+            const userData = await userModel.findById(userId)
+            for (const userId of accountData.userFollowersList) {
+                if (userId in accountData.userFollowersList) {
+                    isUserPresent = false;
+                    break;
+                }
+            }
+            if (isUserPresent) {
+                return res.status(401).send({
+                    success: false,
+                    message: "You already follow"
+                })
+            }
+            accountData.userFollowers = accountData.userFollowers + 1
+            accountData.userFollowersList.push(userId)
+            userData.userFollowing = userData.userFollowing - 1
+            userData.userFollowingList.push(accountId)
+            await accountData.save()
+            await userData.save()
+            res.status(200).send({
+                success: true,
+                message: "Follow successfully"
+            })
         } catch (error) {
             userLogger.log('error', `Error: ${error.message}`);
             res.status(500).json({

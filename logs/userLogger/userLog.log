@@ -36,3 +36,7 @@ level error: Sep-08-2023 10:07:17 	This user name is already taken, try another
 level info: Sep-08-2023 10:07:28 	User profile updated
 level info: Sep-08-2023 17:15:46 	Your account is created!
 level info: Sep-08-2023 17:16:25 	Authentication successful.
+level info: Sep-08-2023 17:48:34 	Your account is created!
+level info: Sep-08-2023 17:49:53 	Your account is created!
+level error: Sep-08-2023 18:45:38 	Error: Cannot read properties of null (reading 'userFollowers')
+level error: Sep-08-2023 18:46:33 	Error: Cannot read properties of null (reading 'userFollowers')

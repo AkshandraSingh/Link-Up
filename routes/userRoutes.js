@@ -12,5 +12,7 @@ router.post('/resetPassword/:userId/:token', user.resetPassword)
 router.post('/setNewPassword/:userId', user.setNewPassword)
 router.patch('/editProfile/:userId', profilePicUpload.single('userProfilePic'), user.editProfile)
 router.get('/showProfile/:userId', user.showProfile)
+router.get('/searchAccount/:userName', user.searchAccount)
+router.get('/followAccount/:accountId/:userId', user.followAccount)
 
 module.exports = router
