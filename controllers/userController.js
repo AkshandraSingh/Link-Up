@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
 
 const userModel = require('../models/userModel')
+const postModel = require('../models/postModel')
 const emailService = require('../services/emailService')
 const userLogger = require('../utils/userLogger/userLogger')
 
@@ -235,7 +236,7 @@ module.exports = {
         }
     },
 
-    showProfile: async (req, res) => {
+    profileDetails: async (req, res) => {
         try {
             const { userId } = req.params
             const userData = await userModel.findById(userId).select('userName name userBio userProfilePic userFollowers userFollowing')
@@ -369,5 +370,71 @@ module.exports = {
                 error: `Error occurred: ${error.message}`
             });
         }
-    }
+    },
+
+    showFollowersList: async (req, res) => {
+        try {
+            const { userId } = req.params
+            const userData = await userModel.findById(userId).select('userFollowersList')
+            userLogger.log('info', 'User followers')
+            res.status(200).send({
+                success: true,
+                message: "Your followers",
+                followersList: userData
+            })
+        } catch (error) {
+            userLogger.log('error', `Error: ${error.message}`);
+            res.status(500).json({
+                success: false,
+                error: `Error occurred: ${error.message}`
+            });
+        }
+    },
+
+    showFollowingList: async (req, res) => {
+        try {
+            const { userId } = req.params
+            const userData = await userModel.findById(userId).select('userFollowingList')
+            userLogger.log('info', 'User following')
+            res.status(200).send({
+                success: true,
+                message: "Your following",
+                followersList: userData
+            })
+        } catch (error) {
+            userLogger.log('error', `Error: ${error.message}`);
+            res.status(500).json({
+                success: false,
+                error: `Error occurred: ${error.message}`
+            });
+        }
+    },
+
+    myPost: async (req, res) => {
+        try {
+            const { userId } = req.params
+            const postData = await postModel.find({
+                userId: userId
+            }).select('postName postImage postVideo')
+            if (postData.length === 0) {
+                userLogger.log('info', 'Post not found')
+                return res.status(404).send({
+                    success: false,
+                    message: "Post not found"
+                })
+            }
+            userLogger.log('info', 'User all post')
+            res.status(200).send({
+                success: true,
+                message: "Your all post",
+                postData: postData
+            })
+        } catch (error) {
+            userLogger.log('error', `Error: ${error.message}`);
+            res.status(500).json({
+                success: false,
+                error: `Error occurred: ${error.message}`
+            });
+        }
+    },
 }
