@@ -300,7 +300,7 @@ module.exports = {
     searchAccount: async (req, res) => {
         try {
             const { userName } = req.params
-            const searchData = await userModel.find({ userName: { $regex: `^${userName}`, $options: "i" } }).select('userName name userProfilePic userBio userFollowers userFollowing')
+            const searchData = await userModel.find({ userName: { $regex: `^${userName}`, $options: "i" } }).select('userName userProfilePic')
             if (searchData.length === 0) {
                 return res.status(404).send({
                     success: false,
@@ -323,38 +323,51 @@ module.exports = {
 
     followAccount: async (req, res) => {
         try {
-            const { accountId, userId } = req.params
-            let isUserPresent = true
-            const accountData = await userModel.findById(accountId)
-            const userData = await userModel.findById(userId)
-            for (const userId of accountData.userFollowersList) {
-                if (userId in accountData.userFollowersList) {
-                    isUserPresent = false;
-                    break;
-                }
-            }
-            if (isUserPresent) {
-                return res.status(401).send({
+            const { accountId, userId } = req.params;
+            const accountData = await userModel.findById(accountId);
+            const userData = await userModel.findById(userId);
+            if (!accountData || !userData) {
+                return res.status(404).json({
                     success: false,
-                    message: "You already follow"
-                })
+                    message: "Account or user not found"
+                });
             }
-            accountData.userFollowers = accountData.userFollowers + 1
-            accountData.userFollowersList.push(userId)
-            userData.userFollowing = userData.userFollowing - 1
-            userData.userFollowingList.push(accountId)
-            await accountData.save()
-            await userData.save()
-            res.status(200).send({
-                success: true,
-                message: "Follow successfully"
-            })
+            const accountName = accountData.userName;
+            const userAccountName = userData.userName;
+            const isUserPresent = accountData.userFollowersList.includes(userAccountName);
+            if (isUserPresent) {
+                const userNameIndex = accountData.userFollowersList.indexOf(userAccountName);
+                const accountNameIndex = userData.userFollowingList.indexOf(accountName);
+                accountData.userFollowers -= 1;
+                accountData.userFollowersList.splice(userNameIndex, 1);
+                userData.userFollowing -= 1;
+                userData.userFollowingList.splice(accountNameIndex, 1);
+                await accountData.save();
+                await userData.save();
+                userLogger.log('info', 'Unfollow successfully');
+                return res.status(200).json({
+                    success: true,
+                    message: "Unfollow successfully"
+                });
+            } else {
+                accountData.userFollowers += 1;
+                accountData.userFollowersList.push(userAccountName);
+                userData.userFollowing += 1;
+                userData.userFollowingList.push(accountName);
+                await accountData.save();
+                await userData.save();
+                userLogger.log('info', 'Follow successfully');
+                return res.status(200).json({
+                    success: true,
+                    message: "Follow successfully"
+                });
+            }
         } catch (error) {
             userLogger.log('error', `Error: ${error.message}`);
             res.status(500).json({
                 success: false,
-                error: `Error occurred: ${error.message}`,
+                error: `Error occurred: ${error.message}`
             });
         }
-    },
+    }
 }
