@@ -33,6 +33,14 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: ""
     },
+    userFollowers: {
+        type: Number,
+        default: 0,
+    },
+    userFollowing: {
+        type: Number,
+        default: 0,
+    },
     usedPassword: {
         type: [],
         required: []
