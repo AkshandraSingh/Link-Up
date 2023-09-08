@@ -35,4 +35,3 @@ const postSchema = new mongoose.Schema({
 postSchema.set('timestamps', true)
 
 module.exports = mongoose.model('post', postSchema)
-
