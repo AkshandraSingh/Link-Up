@@ -10,5 +10,6 @@ router.post('/createPostVideo/:userId', videoUpload.single('postVideo'), postCon
 router.patch('/editPost/:postId', postController.editPost)
 router.delete('/deletePost/:postId', postController.deletePost)
 router.get('/postDetails/:postId', postController.postDetails)
+router.get('/likeDislikePost/:userId/:postId', postController.likeDislikePost)
 
 module.exports = router;
