@@ -444,7 +444,8 @@ module.exports = {
             const userData = await userModel.findById(userId);
             const followingPost = await postModel.find({
                 userName: userData.userFollowingList
-            })
+            }).select('postName postImage postVideo postLikes')
+            userLogger.log('info', 'User dashboard')
             res.status(200).send({
                 success: true,
                 message: "User dashboard",

@@ -79,4 +79,27 @@ module.exports = {
             });
         }
     },
+
+    postDetails: async (req, res) => {
+        try {
+            const { postId } = req.params
+            const postData = await postModel.findById(postId)
+            const postSelectedData = await postModel.findById(postId).select('postName postDescription postImage postVideo postLikes')
+            const userData = await userModel.findOne({
+                userName: postData.userName
+            }).select('userName userProfilePic')
+            res.status(200).send({
+                success: true,
+                message: 'Post details found',
+                userInfo: userData,
+                postInfo: postSelectedData,
+            })
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                message: "Error",
+                error: error.message
+            });
+        }
+    }
 };

@@ -9,5 +9,6 @@ router.post('/createPostImage/:userId', postImageUpload.single('postImage'), pos
 router.post('/createPostVideo/:userId', videoUpload.single('postVideo'), postController.createPost);
 router.patch('/editPost/:postId', postController.editPost)
 router.delete('/deletePost/:postId', postController.deletePost)
+router.get('/postDetails/:postId', postController.postDetails)
 
 module.exports = router;
