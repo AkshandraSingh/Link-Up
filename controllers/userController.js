@@ -327,6 +327,7 @@ module.exports = {
             const { accountId, userId } = req.params;
             const accountData = await userModel.findById(accountId);
             const userData = await userModel.findById(userId);
+            const accountUserEmail = accountData.userEmail
             if (!accountData || !userData) {
                 return res.status(404).json({
                     success: false,
@@ -357,6 +358,7 @@ module.exports = {
                 userData.userFollowingList.push(accountName);
                 await accountData.save();
                 await userData.save();
+                await emailService.mailOptions(accountUserEmail)
                 userLogger.log('info', 'Follow successfully');
                 return res.status(200).json({
                     success: true,
