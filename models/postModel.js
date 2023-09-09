@@ -21,10 +21,9 @@ const postSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    userId: {
-        type: mongoose.Types.ObjectId,
-        ref: 'user',
-        required: true
+    userName: {
+        type: String,
+        required: true,
     },
     isActive: {
         type: Boolean,

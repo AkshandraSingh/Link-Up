@@ -17,6 +17,7 @@ router.get('/followAccount/:accountId/:userId', user.followAccount)
 router.get('/showFollowersList/:userId', user.showFollowersList)
 router.get('/showFollowingList/:userId', user.showFollowingList)
 router.get('/myPost/:userId', user.myPost)
+router.get('/userDashBoard/:userId', user.userDashBoard)
 router.patch('/editProfile/:userId', profilePicUpload.single('userProfilePic'), user.editProfile)
 
 module.exports = router

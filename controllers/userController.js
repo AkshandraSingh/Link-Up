@@ -437,4 +437,25 @@ module.exports = {
             });
         }
     },
+
+    userDashBoard: async (req, res) => {
+        try {
+            const { userId } = req.params;
+            const userData = await userModel.findById(userId);
+            const followingPost = await postModel.find({
+                userName: userData.userFollowingList
+            })
+            res.status(200).send({
+                success: true,
+                message: "User dashboard",
+                post: followingPost
+            });
+        } catch (error) {
+            console.error(`Error: ${error.message}`);
+            res.status(500).json({
+                success: false,
+                error: `Error occurred: ${error.message}`
+            });
+        }
+    },
 }

@@ -1,9 +1,12 @@
 const postModel = require('../models/postModel');
+const userModel = require('../models/userModel')
 
 module.exports = {
     createPost: async (req, res) => {
         try {
             const userId = req.params.userId;
+            const userData = await userModel.findById(userId)
+            const userName = userData.userName
             let postImage;
             let postVideo;
             if (req.file && req.file.fieldname === 'postImage') {
@@ -14,7 +17,7 @@ module.exports = {
             }
             const newPostData = {
                 ...req.body,
-                userId,
+                userName,
                 postImage,
                 postVideo
             };
