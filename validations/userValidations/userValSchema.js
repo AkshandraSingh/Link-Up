@@ -56,9 +56,8 @@ const userValSchema = {
     }).unknown(true),
 
     userLogin: joi.object({
-        userEmail: joi
+        userAccount: joi
             .string()
-            .email()
             .required(),
         accountPassword: joi
             .string()

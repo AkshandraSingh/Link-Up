@@ -16,7 +16,6 @@ const userAuthentication = async (req, res, next) => {
             }
         })
     } else {
-        tokenLogger.log('error', "Token not found!")
         res.status(401).json({
             success: false,
             message: "Token not found!"
