@@ -14,6 +14,11 @@ const commentSchema = new mongoose.Schema({
         ref: 'user',
         required: true
     },
+    postId: {
+        type: mongoose.Types.ObjectId,
+        ref: 'post',
+        required: true
+    },
     isActive: {
         type: Boolean,
         default: true
@@ -22,4 +27,4 @@ const commentSchema = new mongoose.Schema({
 
 commentSchema.set('timestamps', true)
 
-module.exports = mongoose.model('user', userSchema)
+module.exports = mongoose.model('comments', commentSchema)
