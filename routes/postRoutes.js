@@ -5,11 +5,11 @@ const { postImageUpload, videoUpload } = require('../middleware/userStorage');
 
 const router = express.Router();
 
-router.post('/createPostImage/:userId', postImageUpload.single('postImage'), postController.createPost);
-router.post('/createPostVideo/:userId', videoUpload.single('postVideo'), postController.createPost);
+router.post('/createImage/:userId', postImageUpload.single('postImage'), postController.createPost);
+router.post('/createVideo/:userId', videoUpload.single('postVideo'), postController.createPost);
 router.patch('/editPost/:postId', postController.editPost)
-router.delete('/deletePost/:postId', postController.deletePost)
-router.get('/postDetails/:postId', postController.postDetails)
-router.get('/likeDislikePost/:userId/:postId', postController.likeDislikePost)
+router.delete('/delete/:postId', postController.deletePost)
+router.get('details/:postId', postController.postDetails)
+router.get('/likeDislike/:userId/:postId', postController.likeDislikePost)
 
 module.exports = router;

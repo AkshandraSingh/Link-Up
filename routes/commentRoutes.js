@@ -7,5 +7,6 @@ const router = express.Router();
 router.post('/addComment/:userId/:postId', commentController.addComment);
 router.patch('/editComment/:commentId', commentController.editComment);
 router.delete('/deleteComment/:commentId', commentController.deleteComment)
+router.get('/likeComment/:commentId/:userId', commentController.likeComment)
 
 module.exports = router;

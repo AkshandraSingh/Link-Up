@@ -8,3 +8,17 @@ level info: Sep-10-2023 11:12:54 	Post details found
 level info: Sep-10-2023 11:14:49 	Post details found
 level info: Sep-10-2023 11:15:46 	Post details found
 level info: Sep-10-2023 11:17:21 	Post details found
+level info: Sep-10-2023 13:26:57 	Post created successfully
+level error: Sep-10-2023 13:27:30 	Error: Cannot read properties of null (reading 'userName')
+level error: Sep-10-2023 13:27:57 	Error: Cannot read properties of null (reading 'userName')
+level info: Sep-10-2023 13:28:22 	Post created successfully
+level info: Sep-10-2023 13:39:52 	Post created successfully
+level info: Sep-10-2023 13:43:18 	Post created successfully
+level info: Sep-10-2023 13:55:27 	Post created successfully
+level error: Sep-10-2023 13:55:53 	Error: Cannot read properties of undefined (reading 'fieldname')
+level info: Sep-10-2023 13:56:08 	Post created successfully
+level info: Sep-10-2023 14:27:49 	Post created successfully
+level info: Sep-10-2023 14:32:35 	Post created successfully
+level info: Sep-10-2023 16:18:12 	Post created successfully
+level info: Sep-10-2023 16:21:20 	Post created successfully
+level info: Sep-10-2023 16:23:43 	Post created successfully

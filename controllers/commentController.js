@@ -1,4 +1,5 @@
 const commentModel = require('../models/commentModel')
+const userModel = require('../models/userModel')
 
 module.exports = {
     addComment: async (req, res) => {
@@ -49,6 +50,39 @@ module.exports = {
                 message: "Comment deleted successfully",
                 comment: commentData
             })
+        } catch (error) {
+            res.status(500).send({
+                success: false,
+                message: "Error",
+                error: error.message,
+            })
+        }
+    },
+
+    likeComment: async (req, res) => {
+        try {
+            const { commentId, userId } = req.params
+            const commentData = await commentModel.findById(commentId)
+            const userData = await userModel.findById(userId)
+            const userName = userData.userName
+            if (commentData.commentLikeList.includes(userName)) {
+                const userNameIndex = commentData.commentLikeList.indexOf(userName)
+                commentData.commentLikes -= 1
+                commentData.commentLikeList.splice(userNameIndex, 1)
+                await commentData.save()
+                res.status(200).send({
+                    success: true,
+                    message: "You remove like",
+                })
+            } else {
+                commentData.commentLikes += 1
+                commentData.commentLikeList.push(userName)
+                await commentData.save()
+                res.status(200).send({
+                    success: true,
+                    message: "You like comment",
+                })
+            }
         } catch (error) {
             res.status(500).send({
                 success: false,
