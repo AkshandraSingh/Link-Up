@@ -1,5 +1,6 @@
 const postModel = require('../models/postModel');
 const userModel = require('../models/userModel')
+const commentModel = require('../models/commentModel')
 const postLogger = require('../utils/postLogger/postLogger')
 
 module.exports = {
@@ -89,19 +90,24 @@ module.exports = {
 
     postDetails: async (req, res) => {
         try {
-            const { postId } = req.params
+            const { postId } = req.params;
             const postData = await postModel.findById(postId)
-            const postSelectedData = await postModel.findById(postId).select('postName postDescription postImage postVideo postLikes')
+            const postSelectedData = await postModel.findById(postId).select('postName postDescription postImage postVideo postLikes');
+            const commentSelectedData = await commentModel
+                .find({ postId })
+                .select('comment commentLikes')
+                .populate({ path: "userId", select: "userName userProfilePic" });
             const userData = await userModel.findOne({
                 userName: postData.userName
             }).select('userName userProfilePic')
-            postLogger.log('info', 'Post details found')
+            postLogger.log('info', 'Post details found');
             res.status(200).send({
                 success: true,
                 message: 'Post details found',
                 userInfo: userData,
                 postInfo: postSelectedData,
-            })
+                commentInfo: commentSelectedData,
+            });
         } catch (error) {
             postLogger.log('error', `Error: ${error.message}`)
             res.status(500).json({
