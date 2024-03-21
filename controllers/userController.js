@@ -99,7 +99,7 @@ module.exports = {
                 userEmail: userEmail
             })
             if (!isEmailExist) {
-                return res.status(401).json({
+                return res.status(404).json({
                     success: false,
                     message: "Invalid credentials. User not found.",
                 });
@@ -346,10 +346,10 @@ module.exports = {
                 userData.userFollowingList.splice(accountNameIndex, 1);
                 await accountData.save();
                 await userData.save();
-                userLogger.log('info', 'Unfollow successfully');
+                userLogger.log('info', 'Un follow successfully');
                 return res.status(200).json({
                     success: true,
-                    message: "Unfollow successfully"
+                    message: "Un follow successfully"
                 });
             } else {
                 accountData.userFollowers += 1;

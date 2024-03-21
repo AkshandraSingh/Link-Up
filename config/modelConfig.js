@@ -2,9 +2,7 @@ const mongoose = require('mongoose');
 
 const logger = require('../utils/logger')
 
-mongoose.connect(process.env.URL, {
-    useNewUrlParser: true,
-})
+mongoose.connect(process.env.URL)
 
 mongoose.connection.on('error', (error) => {
     console.log("Mongoose Error")
